@@ -54,7 +54,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class FaceCamera2 extends AppCompatActivity {
 
