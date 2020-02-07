@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">FaceRegistration</string>
+    <string name="logo">logo</string>
+    <string name="greeting">인사말</string>
+    <string name="name">이름</string>
+    <string name="birthdate">생년월일</string>
+    <string name="birth_select">생년월일을 선택해주세요.</string>
+    <string name="email">이메일</string>
+    <string name="email_hint">youremail@lotte.net</string>
+    <string name="gender">성별</string>
+    <string name="male">남자</string>
+    <string name="female">여자</string>
+    <string name="pi_info">개인 정보 수집 및 얼굴 등록에 동의하시면 더 편리한 서비스를 만드는데 도움이 될거에요.</string>
+    <string name="agree">동의함</string>
+    <string name="protection_info">보기 ></string>
+    <string name="submit">확인</string>
+
+    <string name="pi_popup_title">개인정보 수집 동의</string>
+    <string name="pi_popup_p">내용</string>
+    <string name="close">닫기</string>
+
+    <string name="ahead">정면을 봐주세요.</string>
+    <string name="turn">얼굴을 시계방향으로 천천히 돌려주세요.</string>
+    <string name="complete">완료되었습니다.</string>
+</resources>

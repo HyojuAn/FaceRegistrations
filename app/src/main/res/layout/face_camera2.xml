@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FaceCamera2">
+
+    <TextureView
+        android:id="@+id/cameraTextureView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/custom_camera" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="왜안나와개빡치게" />
+
+    <com.dinuscxj.progressbar.CircleProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="625dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="175dp"
+        android:max="100"
+        app:drawBackgroundOutsideProgress="true"
+        app:line_count="30"
+        app:line_width="4dp"
+        app:progress_background_color="@android:color/holo_green_light"
+        app:progress_end_color="#FFEB3B"
+        app:progress_shader="sweep"
+        app:progress_start_color="#FFEB3B"
+        app:progress_stroke_cap="round"
+        app:progress_stroke_width="15dp"
+        app:style="solid_line" />
+
+    <TextView
+        android:id="@+id/record_end"
+        android:layout_width="179dp"
+        android:layout_height="33dp"
+        android:layout_above="@id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-121dp"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_timer"
+        android:layout_width="179dp"
+        android:layout_height="33dp"
+        android:layout_above="@id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-120dp"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/end_time"
+        android:layout_width="179dp"
+        android:layout_height="33dp"
+        android:layout_above="@id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-120dp"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="녹화 종료"
+        android:background="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/progressBar"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/custom1"
+        android:gravity="center_horizontal"
+        android:padding="9dp"
+        android:text="정면을 봐주세요."
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/custom1"
+        android:gravity="center_horizontal"
+        android:padding="9dp"
+        android:text="얼굴을 360도 돌려주세요."
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/radius"
+        android:gravity="center"
+        android:text="확인"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
