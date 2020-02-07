@@ -305,7 +305,7 @@ public class FaceCamera2 extends AppCompatActivity {
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264); //비디오 인코더
 //        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC); //오디오 인코더
         mediaRecorder.setOutputFile(recordFilePath); // 저장할 파일 전체 경로
-        mediaRecorder.setOrientationHint(90); // 비디오 방향 설정
+        mediaRecorder.setOrientationHint(270); // 비디오 방향 설정
         mediaRecorder.setMaxDuration(100000); // 녹화시간 10초
 
         try {
@@ -340,21 +340,21 @@ public class FaceCamera2 extends AppCompatActivity {
         }
     }
 
-    // 데이터 전송
+     // 데이터 전송
     class InsertData extends AsyncTask<String, Void, String> {
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            progressDialog = ProgressDialog.show(FaceCamera2.this, "Please Wait", null, true, true);
+//            progressDialog = ProgressDialog.show(FaceCamera2.this, "Please Wait", null, true, true);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
             Log.d(TAG, "POst response");
         }
 
@@ -429,7 +429,7 @@ public class FaceCamera2 extends AppCompatActivity {
     }
 
     private File getOutputMediaFile(){ // 녹화 파일을 리턴하는 메서드
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.KOREA);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HHmmss", Locale.KOREA);
         Date date = new Date();
         String time = format.format(date);
         String recordPath = getExternalCacheDir().getAbsolutePath();
