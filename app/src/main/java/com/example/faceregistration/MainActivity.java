@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // 달력에서 선택한 값 텍스트 영역에 반영
     private void updateLabel(){
         String myFormat = "yyyy.MM.dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat, Locale.KOREA);
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = findViewById(R.id.ebirth);
         editText.setText(simpleDateFormat.format(myCalender.getTime()));
     }
-    // 생년월일 달력 끝
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 String birth = etbirth.getText().toString();
                 String email = etemail.getText().toString();
                 String gender = "";
+                String agreement = "";
                 CheckBox agree = findViewById(R.id.agree);
                 boolean flag = false;
 
@@ -120,10 +121,15 @@ public class MainActivity extends AppCompatActivity {
                     gender = "F";
                 }
 
+                if(agree.isChecked()){
+                    agreement = "Y";
+                }
+
                 if(flag){
                     next_info.setEnabled(true);
                     next_info.setBackgroundResource(R.color.button);
-                    Privacy privacy = new Privacy(name, birth, email, gender);
+                    // 데이터 전달
+                    Privacy privacy = new Privacy(name, birth, email, gender, agreement);
                     Intent intentSend = new Intent(getApplicationContext(), Simulation.class);
                     intentSend.putExtra("class", privacy);
 

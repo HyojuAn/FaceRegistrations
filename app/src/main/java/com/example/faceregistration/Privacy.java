@@ -7,15 +7,17 @@ public class Privacy implements Serializable {
     String birthdate;
     String email;
     String gender;
+    String agreement;
 
     public Privacy(){
 
     }
-    public Privacy(String name, String birthdate, String email, String gender){
+    public Privacy(String name, String birthdate, String email, String gender, String agreement){
         this.name = name;
         this.birthdate = birthdate;
         this.email = email;
         this.gender = gender;
+        this.agreement = agreement;
     }
 
     public String getName(){
@@ -44,6 +46,13 @@ public class Privacy implements Serializable {
     }
     public void setGender(String gender){
         this.gender = gender;
+    }
+
+    public String getAgreement(){
+        return agreement;
+    }
+    public void setAgreement(String agreement){
+        this.agreement = agreement;
     }
 
 

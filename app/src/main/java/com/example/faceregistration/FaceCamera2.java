@@ -51,26 +51,24 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class FaceCamera2 extends AppCompatActivity {
+
+    //권한
     private static final int REQUEST_USED_PERMISSION = 200;
+    private static final String[] needPermissions={Manifest.permission.CAMERA};
+
+    // 데이터베이스 연결
     // 에뮬레이터 10.0.2.2
     private static String IP_ADDRESS = "10.0.2.2";
     private static String TAG = "phptest";
 
-
     // 프로그래스바
     private CircleProgressBar mCustomProgressBar;
-
-    //권한
-    private static final String[] needPermissions={
-            Manifest.permission.CAMERA
-    };
 
     // 녹화
     private Size previewSize;
@@ -81,6 +79,7 @@ public class FaceCamera2 extends AppCompatActivity {
     private MediaRecorder mediaRecorder;
     String recordFilePath;
 
+    // 권한 확인
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -108,9 +107,8 @@ public class FaceCamera2 extends AppCompatActivity {
         // 개인정보 데이터 수신
         Intent intent = getIntent();
         final Privacy privacy = (Privacy)intent.getSerializableExtra("class");
-//        TextView textView3 = (TextView)findViewById(R.id.textView3);
-//        textView3.setText(privacy.getName()+privacy.getBirthdate()+privacy.getEmail()+privacy.getGender());
 
+        // 카운트다운
         final TextView text_timer = findViewById(R.id.text_timer);
 
         new CountDownTimer(4000, 1000) {
@@ -137,12 +135,14 @@ public class FaceCamera2 extends AppCompatActivity {
             }
         }
 
+        // 카메라
         textureView = findViewById(R.id.cameraTextureView);
 
         //프로그래스바
         mCustomProgressBar = findViewById(R.id.progressBar2);
         mCustomProgressBar.setProgressFormatter(null);
 
+        // 시간에 따른 안내멘트 및 확인 버튼
         ImageView image2 = findViewById(R.id.checkimg2);
         Animation image_ani2= AnimationUtils.loadAnimation(this,R.anim.fadeinbutton);
         image2.startAnimation(image_ani2);
@@ -162,15 +162,16 @@ public class FaceCamera2 extends AppCompatActivity {
         camera_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 전달받은 데이터
                 String name = privacy.getName();
-                Log.d(TAG, privacy.getName());
                 String birth = privacy.getBirthdate();
                 String email = privacy.getEmail();
                 String gender = privacy.getGender();
-                Log.d(TAG, name+birth+email+gender+recordFilePath);
+                String agreement = privacy.getAgreement();
 
+                //데이터 전송
                 InsertData task = new InsertData();
-                task.execute("http://"+IP_ADDRESS+"/insert.php", name, birth, email, gender, recordFilePath);
+                task.execute("http://"+IP_ADDRESS+"/insert.php", name, birth, email, gender, agreement, recordFilePath);
                 startActivity(new Intent(getApplicationContext(), FinishActivity.class));
                 finish();
             }
@@ -283,15 +284,11 @@ public class FaceCamera2 extends AppCompatActivity {
     }
 
     private void startRecording() {
-        //capture.setText("녹화 중지");
-
         if (mediaRecorder == null) {
             mediaRecorder = new MediaRecorder();
         }
 
         recordFilePath = getOutputMediaFile().getAbsolutePath(); // 저장할 파일 경로
-//        String recordFilePath = "/sdcard/record.mp4";
-        Log.d("dsfa", recordFilePath);
 
         mediaRecorder.setVideoEncodingBitRate(5000000); //전송률
 //        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC); //음성 소스 설정
@@ -343,6 +340,7 @@ public class FaceCamera2 extends AppCompatActivity {
         }
     }
 
+    // 데이터 전송
     class InsertData extends AsyncTask<String, Void, String> {
         ProgressDialog progressDialog;
 
@@ -356,9 +354,7 @@ public class FaceCamera2 extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             progressDialog.dismiss();
-//            result.setText(s);
             Log.d(TAG, "POst response");
         }
 
@@ -369,8 +365,9 @@ public class FaceCamera2 extends AppCompatActivity {
             String email = params[3];
             String gender = params[4];
             String video = params[5];
+            String agreement = params[6];
             String serverURL = params[0];
-            String postParameters = "name="+name+"&birth="+birth+"&email="+email+"&gender="+gender+"&video="+video;
+            String postParameters = "name="+name+"&birth="+birth+"&email="+email+"&gender="+gender+"&video="+video+"&agreement="+agreement;
 
             try {
                 URL url = new URL(serverURL);
@@ -436,7 +433,6 @@ public class FaceCamera2 extends AppCompatActivity {
         Date date = new Date();
         String time = format.format(date);
         String recordPath = getExternalCacheDir().getAbsolutePath();
-        //        Log.d("dsfa", String.valueOf(mediaFile));
         return new File(recordPath + File.separator + time + ".mp4");
     }
 

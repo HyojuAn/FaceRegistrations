@@ -9,7 +9,6 @@ import android.view.Window;
 
 import androidx.annotation.Nullable;
 
-
 public class PopupActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
