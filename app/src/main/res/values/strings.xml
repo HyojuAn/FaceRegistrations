@@ -20,6 +20,14 @@
     <string name="close">닫기</string>
 
     <string name="ahead">정면을 봐주세요.</string>
-    <string name="turn">얼굴을 시계방향으로 천천히 돌려주세요.</string>
+    <string name="turn">얼굴을 360도 천천히 돌려주세요.</string>
     <string name="complete">완료되었습니다.</string>
+
+    <string name="simulation_info">시뮬레이션화면안내</string>
+    <string name="sim_check">시뮬레이션완료</string>
+
+    <string name="cameara_custom">카메라화면이미지</string>
+    <string name="three">3</string>
+    <string name="finish_check">마지막페이지체크이미지</string>
+    <string name="finish_info">최종완료안내</string>
 </resources>

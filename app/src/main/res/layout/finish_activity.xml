@@ -10,29 +10,31 @@
 
     <ImageView
         android:id="@+id/finish_check"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="250dp"
+        android:layout_width="787dp"
+        android:layout_height="166dp"
+        android:layout_marginTop="230dp"
+        android:contentDescription="@string/finish_check"
         app:srcCompat="@drawable/finish_check" />
 
     <ImageView
         android:id="@+id/finish_info"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="213dp"
         android:layout_below="@id/finish_check"
         android:layout_marginTop="50dp"
+        android:contentDescription="@string/finish_info"
         app:srcCompat="@drawable/finish_info" />
 
     <Button
         android:id="@+id/finish_ok"
         android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_below="@id/finish_info"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:background="@drawable/radius"
-        android:text="확인"
+        android:background="@color/button"
+        android:text="@string/submit"
         android:textColor="#FFFFFF"
-        android:textSize="36sp"
+        android:textSize="35sp"
         android:textStyle="bold" />
 </RelativeLayout>

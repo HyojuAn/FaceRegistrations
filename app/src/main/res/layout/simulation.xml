@@ -7,18 +7,12 @@
     android:background="#FFFFFF"
     tools:context=".Simulation">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="TextView" />
-
     <ImageView
         android:id="@+id/information"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="100dp"
+        android:contentDescription="@string/simulation_info"
         android:src="@drawable/infomation" />
 
     <FrameLayout
@@ -28,33 +22,30 @@
         android:layout_below="@id/information"
         android:layout_marginTop="60dp">
 
+
         <VideoView
-            android:id="@+id/videoView1"
-            android:layout_width="630dp"
-            android:layout_height="630dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
+            android:id="@+id/faceVideo"
+            android:layout_width="580dp"
+            android:layout_height="580dp"
             android:layout_gravity="center"
             android:focusable="false"
             android:focusableInTouchMode="false">
 
         </VideoView>
 
-
         <com.dinuscxj.progressbar.CircleProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="630dp"
-            android:layout_height="630dp"
+            android:layout_width="580dp"
+            android:layout_height="580dp"
             android:layout_gravity="center"
             android:max="100"
             app:drawBackgroundOutsideProgress="true"
             app:line_count="30"
             app:line_width="4dp"
-            app:progress_background_color="@android:color/holo_green_light"
-            app:progress_end_color="@android:color/holo_orange_light"
+            app:progress_background_color="#C4C4C4"
+            app:progress_end_color="@color/button"
             app:progress_shader="sweep"
-            app:progress_start_color="@android:color/holo_orange_light"
+            app:progress_start_color="@color/button"
             app:progress_stroke_cap="round"
             app:progress_stroke_width="15dp"
             app:style="solid_line" />
@@ -62,56 +53,70 @@
 
         <ImageView
             android:id="@+id/checkimg"
-            android:layout_width="630dp"
-            android:layout_height="630dp"
+            android:layout_width="580dp"
+            android:layout_height="580dp"
             android:layout_gravity="center"
+            android:contentDescription="@string/sim_check"
             android:src="@drawable/check" />
 
     </FrameLayout>
 
     <TextView
         android:id="@+id/ahead"
-        android:layout_width="300dp"
+        android:layout_width="500dp"
         android:layout_height="60dp"
         android:layout_below="@id/simulation"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:background="@drawable/custom1"
+        android:background="@android:color/white"
         android:gravity="center_horizontal"
         android:padding="9dp"
-        android:text="정면을 봐주세요"
-        android:textColor="@android:color/white"
-        android:textSize="28dp" />
+        android:text="@string/ahead"
+        android:textColor="#000000"
+        android:textSize="28sp" />
 
     <TextView
         android:id="@+id/turn"
-        android:layout_width="400dp"
+        android:layout_width="500dp"
         android:layout_height="60dp"
         android:layout_below="@id/simulation"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:background="@drawable/custom1"
+        android:background="@android:color/white"
         android:gravity="center_horizontal"
         android:padding="9dp"
-        android:text="얼굴을 360도 돌려주세요."
-        android:textColor="@android:color/white"
-        android:textSize="28dp" />
+        android:text="@string/turn"
+        android:textColor="#000000"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/complete"
+        android:layout_width="500dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/simulation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:padding="9dp"
+        android:text="@string/complete"
+        android:textColor="#000000"
+        android:textSize="28sp" />
 
     <Button
-        android:id="@+id/okbutton"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
+        android:id="@+id/sim_ok"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
         android:layout_below="@id/turn"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center|bottom"
         android:layout_marginTop="40dp"
-        android:background="@drawable/custom2btn"
+        android:background="@color/button"
         android:clickable="true"
         android:focusable="true"
-        android:text="확인"
+        android:text="@string/submit"
         android:textColor="@android:color/white"
-        android:textSize="30dp"
+        android:textSize="35sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

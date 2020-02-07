@@ -14,119 +14,113 @@
         android:layout_centerVertical="true" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/camera_custom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/cameara_custom"
         app:srcCompat="@drawable/custom_camera" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="왜안나와개빡치게" />
-
-    <com.dinuscxj.progressbar.CircleProgressBar
-        android:id="@+id/progressBar"
+    <FrameLayout
+        android:id="@+id/camera"
         android:layout_width="match_parent"
-        android:layout_height="625dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="175dp"
-        android:max="100"
-        app:drawBackgroundOutsideProgress="true"
-        app:line_count="30"
-        app:line_width="4dp"
-        app:progress_background_color="@android:color/holo_green_light"
-        app:progress_end_color="#FFEB3B"
-        app:progress_shader="sweep"
-        app:progress_start_color="#FFEB3B"
-        app:progress_stroke_cap="round"
-        app:progress_stroke_width="15dp"
-        app:style="solid_line" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp">
+
+
+        <com.dinuscxj.progressbar.CircleProgressBar
+            android:id="@+id/progressBar2"
+            android:layout_width="580dp"
+            android:layout_height="580dp"
+            android:layout_gravity="center"
+            android:max="100"
+            app:drawBackgroundOutsideProgress="true"
+            app:line_count="30"
+            app:line_width="4dp"
+            app:progress_background_color="#C4C4C4"
+            app:progress_end_color="@color/button"
+            app:progress_shader="sweep"
+            app:progress_start_color="@color/button"
+            app:progress_stroke_cap="round"
+            app:progress_stroke_width="15dp"
+            app:style="solid_line" />
+
+        <ImageView
+            android:id="@+id/checkimg2"
+            android:layout_width="580dp"
+            android:layout_height="580dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/sim_check"
+            android:src="@drawable/check" />
+
+        <TextView
+            android:id="@+id/text_timer"
+            android:layout_width="580dp"
+            android:layout_height="580dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/three"
+            android:textColor="#FFFFFF"
+            android:textSize="350sp" />
+
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/record_end"
-        android:layout_width="179dp"
-        android:layout_height="33dp"
-        android:layout_above="@id/progressBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="-121dp"
-        android:gravity="center_horizontal"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/text_timer"
-        android:layout_width="179dp"
-        android:layout_height="33dp"
-        android:layout_above="@id/progressBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="-120dp"
-        android:gravity="center_horizontal"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/end_time"
-        android:layout_width="179dp"
-        android:layout_height="33dp"
-        android:layout_above="@id/progressBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="-120dp"
-        android:gravity="center_horizontal"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="녹화 종료"
-        android:background="@android:color/white"/>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="400dp"
+        android:id="@+id/ahead2"
+        android:layout_width="500dp"
         android:layout_height="60dp"
-        android:layout_below="@id/progressBar"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_marginTop="90dp"
-        android:background="@drawable/custom1"
+        android:layout_below="@id/camera"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/white"
         android:gravity="center_horizontal"
         android:padding="9dp"
-        android:text="정면을 봐주세요."
-        android:textColor="@android:color/white"
-        android:textSize="30sp" />
+        android:text="@string/ahead"
+        android:textColor="#000000"
+        android:textSize="28sp" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="400dp"
+        android:id="@+id/turn2"
+        android:layout_width="500dp"
         android:layout_height="60dp"
-        android:layout_below="@id/progressBar"
+        android:layout_below="@id/camera"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="90dp"
-        android:background="@drawable/custom1"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/white"
         android:gravity="center_horizontal"
         android:padding="9dp"
-        android:text="얼굴을 360도 돌려주세요."
-        android:textColor="@android:color/white"
-        android:textSize="30sp" />
+        android:text="@string/turn"
+        android:textColor="#000000"
+        android:textSize="28sp" />
 
-
+    <TextView
+        android:id="@+id/complete2"
+        android:layout_width="500dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/camera"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:padding="9dp"
+        android:text="@string/complete"
+        android:textColor="#000000"
+        android:textSize="28sp" />
 
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/textView2"
+        android:id="@+id/camera_ok"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/complete2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/radius"
-        android:gravity="center"
-        android:text="확인"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="40dp"
+        android:background="@color/button"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/submit"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
         android:textStyle="bold" />
 
 

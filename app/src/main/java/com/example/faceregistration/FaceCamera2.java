@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,22 +47,25 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class FaceCamera2 extends AppCompatActivity {
     private static final int REQUEST_USED_PERMISSION = 200;
+    // 에뮬레이터 10.0.2.2
     private static String IP_ADDRESS = "10.0.2.2";
     private static String TAG = "phptest";
 
 
     // 프로그래스바
     private CircleProgressBar mCustomProgressBar;
-    private TextView textView;
-    private TextView textEnd;
 
     //권한
     private static final String[] needPermissions={
@@ -73,7 +77,6 @@ public class FaceCamera2 extends AppCompatActivity {
     private CameraDevice cameraDevice;
     private CaptureRequest.Builder previewBuilder;
     private CameraCaptureSession previewSession;
-    private Button button;
     private TextureView textureView;
     private MediaRecorder mediaRecorder;
     String recordFilePath;
@@ -84,17 +87,15 @@ public class FaceCamera2 extends AppCompatActivity {
 
         boolean permissionToRecordAccepted = true;
 
-        switch (requestCode){
-            case REQUEST_USED_PERMISSION:
-                for(int result : grantResults){
-                    if(result != PackageManager.PERMISSION_GRANTED){
-                        permissionToRecordAccepted = false;
-                        break;
-                    }
+        if (requestCode == REQUEST_USED_PERMISSION) {
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    permissionToRecordAccepted = false;
+                    break;
                 }
-                break;
+            }
         }
-        if(permissionToRecordAccepted == false){
+        if(!permissionToRecordAccepted){
             finish();
         }
     }
@@ -107,17 +108,17 @@ public class FaceCamera2 extends AppCompatActivity {
         // 개인정보 데이터 수신
         Intent intent = getIntent();
         final Privacy privacy = (Privacy)intent.getSerializableExtra("class");
-        TextView textView3 = (TextView)findViewById(R.id.textView3);
-        textView3.setText(privacy.getName()+privacy.getBirthdate()+privacy.getEmail()+privacy.getGender());
+//        TextView textView3 = (TextView)findViewById(R.id.textView3);
+//        textView3.setText(privacy.getName()+privacy.getBirthdate()+privacy.getEmail()+privacy.getGender());
 
-        final TextView text_timer = (TextView)findViewById(R.id.text_timer);
+        final TextView text_timer = findViewById(R.id.text_timer);
 
-        CountDownTimer countDownTimer = new CountDownTimer(4000, 1000) {
+        new CountDownTimer(4000, 1000) {
             public void onTick(long millisUntilFinished) {
-                text_timer.setText(String.format(Locale.getDefault(), "%d 초", millisUntilFinished / 1000L));
+                text_timer.setText(String.format(Locale.getDefault(), "%d", millisUntilFinished / 1000L));
             }
             public void onFinish() {
-                text_timer.setText("녹화 시작");
+                text_timer.setVisibility(View.GONE);
                 simulateProgress();
 
                 if(isRecording()){
@@ -136,26 +137,29 @@ public class FaceCamera2 extends AppCompatActivity {
             }
         }
 
-        //녹화
-        textureView = (TextureView) findViewById(R.id.cameraTextureView);
-        button = (Button) findViewById(R.id.button);
+        textureView = findViewById(R.id.cameraTextureView);
 
         //프로그래스바
-        mCustomProgressBar = findViewById(R.id.progressBar);
+        mCustomProgressBar = findViewById(R.id.progressBar2);
         mCustomProgressBar.setProgressFormatter(null);
-        textView = findViewById(R.id.textView);
-        textEnd=findViewById(R.id.end_time);
 
+        ImageView image2 = findViewById(R.id.checkimg2);
+        Animation image_ani2= AnimationUtils.loadAnimation(this,R.anim.fadeinbutton);
+        image2.startAnimation(image_ani2);
 
-        Animation animation = AnimationUtils.loadAnimation(FaceCamera2.this, R.anim.fadeintext2);
-        textView.startAnimation(animation);
+        TextView turn2 =findViewById(R.id.turn2);
+        Animation anim3s2 =AnimationUtils.loadAnimation(this, R.anim.fadeintext2);
+        turn2.startAnimation(anim3s2);
 
+        TextView complete2 = findViewById(R.id.complete2);
+        Animation complete_ani2 = AnimationUtils.loadAnimation(this, R.anim.fadeinbutton);
+        complete2.startAnimation(complete_ani2);
+
+        Button camera_ok = findViewById(R.id.camera_ok);
         Animation animation1 = AnimationUtils.loadAnimation(FaceCamera2.this, R.anim.fadeinbutton);
-        button.startAnimation(animation1);
-        textEnd.startAnimation(animation1);
+        camera_ok.startAnimation(animation1);
 
-
-        button.setOnClickListener(new View.OnClickListener() {
+        camera_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = privacy.getName();
@@ -167,7 +171,8 @@ public class FaceCamera2 extends AppCompatActivity {
 
                 InsertData task = new InsertData();
                 task.execute("http://"+IP_ADDRESS+"/insert.php", name, birth, email, gender, recordFilePath);
-                startActivity(new Intent(FaceCamera2.this, FinishActivity.class));
+                startActivity(new Intent(getApplicationContext(), FinishActivity.class));
+                finish();
             }
         });
     }
@@ -359,12 +364,12 @@ public class FaceCamera2 extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String name = (String)params[1];
-            String birth = (String)params[2];
-            String email = (String)params[3];
-            String gender = (String)params[4];
-            String video = (String)params[5];
-            String serverURL = (String)params[0];
+            String name = params[1];
+            String birth = params[2];
+            String email = params[3];
+            String gender = params[4];
+            String video = params[5];
+            String serverURL = params[0];
             String postParameters = "name="+name+"&birth="+birth+"&email="+email+"&gender="+gender+"&video="+video;
 
             try {
@@ -377,7 +382,7 @@ public class FaceCamera2 extends AppCompatActivity {
                 httpURLConnection.connect();
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.write(postParameters.getBytes(StandardCharsets.UTF_8));
                 outputStream.flush();
                 outputStream.close();
 
@@ -392,11 +397,11 @@ public class FaceCamera2 extends AppCompatActivity {
                     inputStream = httpURLConnection.getErrorStream();
                 }
 
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
                 StringBuilder stringBuilder = new StringBuilder();
-                String line=null;
+                String line;
 
                 while ((line=bufferedReader.readLine())!=null){
                     Log.d(TAG, line);
@@ -408,7 +413,7 @@ public class FaceCamera2 extends AppCompatActivity {
 
             } catch (Exception e){
                 Log.d(TAG, "InsertData: Error", e);
-                return new String("Error: "+e.getMessage());
+                return "Error: " + e.getMessage();
             }
         }
     }
@@ -427,10 +432,12 @@ public class FaceCamera2 extends AppCompatActivity {
     }
 
     private File getOutputMediaFile(){ // 녹화 파일을 리턴하는 메서드
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.KOREA);
+        Date date = new Date();
+        String time = format.format(date);
         String recordPath = getExternalCacheDir().getAbsolutePath();
-        File mediaFile = new File(recordPath + File.separator + "recorddddd.mp4");
-//        Log.d("dsfa", String.valueOf(mediaFile));
-        return mediaFile;
+        //        Log.d("dsfa", String.valueOf(mediaFile));
+        return new File(recordPath + File.separator + time + ".mp4");
     }
 
     private TextureView.SurfaceTextureListener surfaceTextureListener = new TextureView.SurfaceTextureListener() {
