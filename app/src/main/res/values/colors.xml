@@ -7,4 +7,5 @@
     <color name="link_text_material_dark">@color/material_deep_teal_200</color>
     <color name="link_text_material_light">@color/material_deep_teal_500</color>
     <color name="button">#e53b42</color>
+    <color name="dont">#C5C5C5</color>
 </resources>
