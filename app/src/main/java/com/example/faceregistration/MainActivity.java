@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -24,15 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
     // 생년월일 달력
     Calendar calendar = Calendar.getInstance();
-    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-            updateLabel();
-        }
-    };
+//    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+//        @Override
+//        public void onDateSet(DatePicker view, int year, int month, int day) {
+//            calendar.set(Calendar.YEAR, year);
+//            calendar.set(Calendar.MONTH, month);
+//            calendar.set(Calendar.DAY_OF_MONTH, day);
+//            updateLabel();
+//        }
+//    };
+
+
 
     // 달력에서 선택한 값 텍스트 반영
     private void updateLabel(){
@@ -52,8 +56,31 @@ public class MainActivity extends AppCompatActivity {
         edbirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Dialog, dateSetListener,
-                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+//                new DatePickerDialog(MainActivity.this, R.style.translucentDialog, dateSetListener,
+//                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        try {
+                            updateLabel();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+                datePickerDialog.getDatePicker().setCalendarViewShown(false);
+                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                datePickerDialog.show();
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(datePickerDialog.getWindow().getAttributes());
+                lp.width = 500;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                Window window = datePickerDialog.getWindow();
+                window.setAttributes(lp);
+
             }
         });
 
