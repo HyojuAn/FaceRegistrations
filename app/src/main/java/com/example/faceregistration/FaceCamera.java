@@ -2,7 +2,6 @@ package com.example.faceregistration;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,6 +29,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,20 +54,20 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class FaceCamera2 extends AppCompatActivity {
 
-    //권한
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+public class FaceCamera extends AppCompatActivity {
+    // 권한
     private static final int REQUEST_USED_PERMISSION = 200;
-    private static final String[] needPermissions={Manifest.permission.CAMERA};
+    private static final String[] needPermission = {Manifest.permission.CAMERA};
 
     // 데이터베이스 연결
     // 에뮬레이터 10.0.2.2
-    private static String IP_ADDRESS = "10.131.145.129";
+    private static String IP_ADDRESS = "10.0.2.2";
     private static String TAG = "phptest";
 
-    // 프로그래스바
-    private CircleProgressBar mCustomProgressBar;
+    // 프로그래스 바
+    private CircleProgressBar customProgressBar;
 
     // 녹화
     private Size previewSize;
@@ -79,15 +79,16 @@ public class FaceCamera2 extends AppCompatActivity {
     String recordFilePath;
 
     // 권한 확인
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         boolean permissionToRecordAccepted = true;
 
-        if (requestCode == REQUEST_USED_PERMISSION) {
-            for (int result : grantResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
+        if(requestCode == REQUEST_USED_PERMISSION){
+            for(int result : grantResults){
+                if(result != PackageManager.PERMISSION_GRANTED){
                     permissionToRecordAccepted = false;
                     break;
                 }
@@ -101,7 +102,7 @@ public class FaceCamera2 extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.face_camera2);
+        setContentView(R.layout.face_camera);
 
         // 개인정보 데이터 수신
         Intent intent = getIntent();
@@ -109,11 +110,13 @@ public class FaceCamera2 extends AppCompatActivity {
 
         // 카운트다운
         final TextView text_timer = findViewById(R.id.text_timer);
-
-        new CountDownTimer(4000, 1000) {
+        new CountDownTimer(4000, 1000){
+            @Override
             public void onTick(long millisUntilFinished) {
-                text_timer.setText(String.format(Locale.getDefault(), "%d", millisUntilFinished / 1000L));
+                text_timer.setText(String.format(Locale.getDefault(), "%d", millisUntilFinished/1000L));
             }
+
+            @Override
             public void onFinish() {
                 text_timer.setVisibility(View.GONE);
                 simulateProgress();
@@ -127,9 +130,9 @@ public class FaceCamera2 extends AppCompatActivity {
             }
         }.start();
 
-        for(String permission : needPermissions){
+        for(String permission : needPermission){
             if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this, needPermissions, REQUEST_USED_PERMISSION);
+                ActivityCompat.requestPermissions(this, needPermission, REQUEST_USED_PERMISSION);
                 break;
             }
         }
@@ -138,8 +141,8 @@ public class FaceCamera2 extends AppCompatActivity {
         textureView = findViewById(R.id.cameraTextureView);
 
         //프로그래스바
-        mCustomProgressBar = findViewById(R.id.progressBar2);
-        mCustomProgressBar.setProgressFormatter(null);
+        customProgressBar = findViewById(R.id.progressBar2);
+        customProgressBar.setProgressFormatter(null);
 
         // 시간에 따른 안내멘트 및 확인 버튼
         ImageView image2 = findViewById(R.id.checkimg2);
@@ -155,7 +158,7 @@ public class FaceCamera2 extends AppCompatActivity {
         complete2.startAnimation(complete_ani2);
 
         Button camera_ok = findViewById(R.id.camera_ok);
-        Animation animation1 = AnimationUtils.loadAnimation(FaceCamera2.this, R.anim.fadeinbutton);
+        Animation animation1 = AnimationUtils.loadAnimation(FaceCamera.this, R.anim.fadeinbutton);
         camera_ok.startAnimation(animation1);
 
         camera_ok.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +186,7 @@ public class FaceCamera2 extends AppCompatActivity {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int progress = (int) animation.getAnimatedValue();
-                mCustomProgressBar.setProgress(progress);
+                customProgressBar.setProgress(progress);
             }
         });
         animator.setDuration(10000);
@@ -247,7 +250,7 @@ public class FaceCamera2 extends AppCompatActivity {
 
             previewSize = streamConfigurationMap.getOutputSizes(SurfaceTexture.class)[0];
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             manager.openCamera(backCameraId, deviceStateCallback, null);
@@ -339,7 +342,7 @@ public class FaceCamera2 extends AppCompatActivity {
         }
     }
 
-     // 데이터 전송
+    // 데이터 전송
     class InsertData extends AsyncTask<String, Void, String> {
 //        ProgressDialog progressDialog;
 
@@ -363,8 +366,8 @@ public class FaceCamera2 extends AppCompatActivity {
             String birth = params[2];
             String email = params[3];
             String gender = params[4];
-            String video = params[5];
-            String agreement = params[6];
+            String video = params[6];
+            String agreement = params[5];
             String serverURL = params[0];
             String postParameters = "name="+name+"&birth="+birth+"&email="+email+"&gender="+gender+"&video="+video+"&agreement="+agreement;
 
@@ -495,4 +498,5 @@ public class FaceCamera2 extends AppCompatActivity {
 
         }
     };
+
 }

@@ -8,14 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class FinishActivity extends AppCompatActivity {
-    private Button finish;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.finish_activity);
 
-        finish = findViewById(R.id.finish_ok);
+        Button finish = findViewById(R.id.finish_ok);
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

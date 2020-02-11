@@ -1,11 +1,11 @@
 package com.example.faceregistration;
 
 import android.app.Activity;
-
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
@@ -13,29 +13,27 @@ public class PopupActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //타이틀바 제거
+
+        // 타이틀바 제거
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.popup_activity);
 
-
-    }
-
-    //닫기 버튼 클릭
-    public void mOnClose(View v){
-        finish();
+        Button close = findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public boolean onTouchEvent(MotionEvent event){
-        //바깥레이어 클릭시 안닫히게
-        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
-            return false;
-        }
-        return true;
+        // 바깥레이어 클릭시 안닫히게
+        return event.getAction() != MotionEvent.ACTION_OUTSIDE;
     }
 
     public void onBackPressed(){
-        //안드로이드 백버튼 막기
+        // 안드로이드 백버튼 막기
         return;
     }
-
 }

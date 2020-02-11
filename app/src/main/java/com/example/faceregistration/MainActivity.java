@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,25 +20,23 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     // 생년월일 달력
-    Calendar myCalender = Calendar.getInstance();
-    DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
-
+    Calendar calendar = Calendar.getInstance();
+    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            myCalender.set(Calendar.YEAR, year);
-            myCalender.set(Calendar.MONTH, month);
-            myCalender.set(Calendar.DAY_OF_MONTH, day);
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
             updateLabel();
         }
     };
 
-    // 달력에서 선택한 값 텍스트 영역에 반영
+    // 달력에서 선택한 값 텍스트 반영
     private void updateLabel(){
-        String myFormat = "yyyy.MM.dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat, Locale.KOREA);
-
+        String dateformat = "yyyy.MM.dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateformat, Locale.KOREA);
         EditText editText = findViewById(R.id.ebirth);
-        editText.setText(simpleDateFormat.format(myCalender.getTime()));
+        editText.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
     @Override
@@ -47,208 +44,81 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //생년월일 입력
-        final EditText etbirth = findViewById(R.id.ebirth);
-        etbirth.setOnClickListener(new View.OnClickListener() {
+        // 생년월일 입력
+        final EditText edbirth = findViewById(R.id.ebirth);
+        edbirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Dialog, myDatePicker,
-                        myCalender.get(Calendar.YEAR), myCalender.get(Calendar.MONTH), myCalender.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Dialog, dateSetListener,
+                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
         // 개인정보 동의 보기 팝업
-        Button prt_info = findViewById(R.id.protection_info);
-        prt_info.setOnClickListener(new View.OnClickListener() {
+        Button protection = findViewById(R.id.protection_info);
+        protection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, PopupActivity.class));
             }
         });
 
-        // 확인 버튼 누르면
-        final Button next_info = findViewById(R.id.next_info);
-        final EditText etname = findViewById(R.id.ename);
-        final EditText etemail = findViewById(R.id.eemail);
+        // 확인 버튼 눌렀을 때
+        final Button next = findViewById(R.id.next_info);
+        final EditText edname = findViewById(R.id.ename);
+        final EditText edemail = findViewById(R.id.eemail);
         final RadioButton male = findViewById(R.id.male);
         final RadioButton female = findViewById(R.id.female);
         final CheckBox agree = findViewById(R.id.agree);
 
-        EditText.OnKeyListener keyListener= new View.OnKeyListener(){
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                String name = etname.getText().toString();
-                String birth = etbirth.getText().toString();
-                String email = etemail.getText().toString();
-
-                //개인정보 입력 확인
-                if(name.length()==0){
-                    Toast.makeText(MainActivity.this, "이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return false;
-                }
-                if(birth.length()==0){
-                    Toast.makeText(MainActivity.this, "생년월일을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return false;
-                }
-                if(email.length()==0){
-                    Toast.makeText(MainActivity.this, "이메일을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return false;
-                }
-                if(!male.isChecked() && !female.isChecked()){
-                    Toast.makeText(MainActivity.this, "성별을 선택해주세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return false;
-                }
-                if(!agree.isChecked()){
-                    Toast.makeText(MainActivity.this, "동의함을 체크해주세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return false;
-                }
-                else{
-                    next_info.setEnabled(true);
-                    next_info.setBackgroundResource(R.color.button);
-                    return true;
-                }
-            }
-        };
-
-        etname.setOnKeyListener(keyListener);
-        etbirth.setOnKeyListener(keyListener);
-        etemail.setOnKeyListener(keyListener);
-
-        RadioButton.OnClickListener clickListener2 = new View.OnClickListener() {
+        next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = etname.getText().toString();
-                String birth = etbirth.getText().toString();
-                String email = etemail.getText().toString();
+                String name = edname.getText().toString();
+                String birth = edbirth.getText().toString();
+                String email = edemail.getText().toString();
+                String gender = "";
+                String agreement = "";
+                boolean flag = false;
 
-                //개인정보 입력 확인
+                // 개인정보 입력 확인
                 if(name.length()==0){
                     Toast.makeText(MainActivity.this, "이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
-                }
-                if(birth.length()==0){
+                } else if(birth.length()==0){
                     Toast.makeText(MainActivity.this, "생년월일을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
-                }
-                if(email.length()==0){
+                } else if(email.length()==0){
                     Toast.makeText(MainActivity.this, "이메일을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
-                }
-                if(!male.isChecked() && !female.isChecked()){
+                } else if(!male.isChecked() && !female.isChecked()){
                     Toast.makeText(MainActivity.this, "성별을 선택해주세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
-                }
-                if(!agree.isChecked()){
+                } else if(!agree.isChecked()){
                     Toast.makeText(MainActivity.this, "동의함을 체크해주세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
+                } else{
+                    flag = true;
                 }
-                else{
-                    next_info.setEnabled(true);
-                    next_info.setBackgroundResource(R.color.button);
+
+                // 남자, 여자 체크 값 가져오기
+                if(male.isChecked()){
+                    gender = "M";
+                } else if(female.isChecked()){
+                    gender = "F";
                 }
-            }
-        };
 
-        male.setOnClickListener(clickListener2);
-        female.setOnClickListener(clickListener2);
-
-        CheckBox.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etname.getText().toString();
-                String birth = etbirth.getText().toString();
-                String email = etemail.getText().toString();
-
-                //개인정보 입력 확인
-                if(name.length()==0){
-                    Toast.makeText(MainActivity.this, "이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
+                // 동의함 체크 여부
+                if(agree.isChecked()){
+                    agreement = "Y";
                 }
-                if(birth.length()==0){
-                    Toast.makeText(MainActivity.this, "생년월일을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
+
+                if(flag){
+                    next.setEnabled(true);
+                    next.setBackgroundResource(R.color.button);
+                    Privacy privacy = new Privacy(name, birth, email, gender, agreement);
+                    Intent intentSend = new Intent(getApplicationContext(), Simulation.class);
+                    intentSend.putExtra("class", privacy);
+                    startActivity(intentSend);
+                    finish();
                 }
-                if(email.length()==0){
-                    Toast.makeText(MainActivity.this, "이메일을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
-                }
-                if(!male.isChecked() && !female.isChecked()){
-                    Toast.makeText(MainActivity.this, "성별을 선택해주세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
-                }
-                if(!agree.isChecked()){
-                    Toast.makeText(MainActivity.this, "동의함을 체크해주세요.", Toast.LENGTH_SHORT).show();
-                    next_info.setEnabled(false);
-                    next_info.setBackgroundResource(R.color.dont);
-                    return;
-                }
-                else{
-                    next_info.setEnabled(true);
-                    next_info.setBackgroundResource(R.color.button);
-                }
-            }
-        };
 
-        agree.setOnClickListener(clickListener);
 
-        final String name = etname.getText().toString();
-        final String birth = etbirth.getText().toString();
-        final String email = etemail.getText().toString();
-        String gender = "";
-        String agreement = "";
-
-        //남자, 여자 체크 값 가져오기
-        if(male.isChecked()){
-            gender = "M";
-        }
-        else if(female.isChecked()){
-            gender = "F";
-        }
-
-        if(agree.isChecked()){
-            agreement = "Y";
-        }
-
-        final String finalGender = gender;
-        final String finalAgreement = agreement;
-        next_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 데이터 전달
-                Privacy privacy = new Privacy(name, birth, email, finalGender, finalAgreement);
-                Intent intentSend = new Intent(getApplicationContext(), Simulation.class);
-                intentSend.putExtra("class", privacy);
-
-                startActivity(intentSend);
-                finish();
             }
         });
     }
