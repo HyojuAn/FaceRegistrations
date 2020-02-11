@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    };
 
-
-
     // 달력에서 선택한 값 텍스트 반영
     private void updateLabel(){
         String dateformat = "yyyy.MM.dd";
@@ -63,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         try {
+                            calendar.set(Calendar.YEAR, year);
+                            calendar.set(Calendar.MONTH, month);
+                            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                             updateLabel();
                         } catch (Exception e){
                             e.printStackTrace();
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(datePickerDialog.getWindow().getAttributes());
-                lp.width = 500;
+                lp.width = 1300;
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                 Window window = datePickerDialog.getWindow();
                 window.setAttributes(lp);
