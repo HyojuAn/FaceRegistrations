@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(datePickerDialog.getWindow().getAttributes());
-                lp.width = 1300;
+                lp.width = 1000;
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                 Window window = datePickerDialog.getWindow();
                 window.setAttributes(lp);
@@ -113,12 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 if(name.length()==0 || birth.length()==0 || email.length()==0 || (!male.isChecked() && !female.isChecked()) || !agree.isChecked() ){
                     next.setEnabled(false);
                     next.setBackgroundResource(R.color.dont);
-                    return false;
                 } else{
                     next.setEnabled(true);
                     next.setBackgroundResource(R.color.button);
-                    return true;
                 }
+                return false;
             }
         };
 
@@ -184,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Privacy privacy = new Privacy(name, birth, email, gender, agreement);
                 Intent intentSend = new Intent(getApplicationContext(), Simulation.class);
-                Toast.makeText(MainActivity.this, name+birth+email+gender+agreement, Toast.LENGTH_SHORT).show();
                 intentSend.putExtra("class", privacy);
                 startActivity(intentSend);
                 finish();
