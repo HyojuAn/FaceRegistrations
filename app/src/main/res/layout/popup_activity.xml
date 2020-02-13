@@ -17,8 +17,10 @@
         android:id="@+id/pi_popup_p"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:background="@drawable/edge"
+        android:padding="30dp"
         android:text="@string/pi_popup_p"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/close"
