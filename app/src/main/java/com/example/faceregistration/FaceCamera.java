@@ -63,8 +63,8 @@ public class FaceCamera extends AppCompatActivity {
 
     // 데이터베이스 연결
     // 에뮬레이터 10.0.2.2
-    private static String IP_ADDRESS = "10.0.0.4";
-    private static String TAG = "phptest";
+    private static String IP_ADDRESS = "10.0.2.2";
+    private static String TAG = "test";
 
     // 프로그래스 바
     private CircleProgressBar customProgressBar;
